@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_qiantai :: head(~{:: title})">
+    <meta charset="UTF-8">
+    <!--首先完成移动端的预览设置问题,设备的宽度初始缩放倍数为1.0倍，这里还可以设置用户禁止缩放等等-->
+    <meta name="viewport" content="device-width,initial-scale=1.0">
+    <title>关于本站</title>
+    <!--接下来进行semanticUI的css CDN的引用-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <!--引入自己写的css-->
+    <link rel="stylesheet" href="../static/css/me.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+<div class="ui left sidebar inverted vertical menu">
+
+    <form method="post" th:action="@{/messages}" th:object="${message}" class="ui inverted center aligned form">
+
+        <div class="ui field">
+            <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" placeholder="别忘记留下昵称" name="touristName">
+            </div>
+        </div>
+        <div class="ui field">
+            <textarea placeholder="留下你的声音吧。" name="content"></textarea>
+        </div>
+        <div class="ui  field">
+            <button type="submit" id="commentpost-btn"
+                    class="ui right aligned m-margin-bottom-small m-mobile-wide  blue button"><i class="edit icon"></i>发布
+            </button>
+        </div>
+
+    </form>
+
+
+    <div th:each="message : ${messages}" class="header item m-text-spaced m-padded-tb-big ">
+        <span th:text="${message.touristName}">培提尔·贝里席</span>:<br><br>
+        <span th:text="${message.content}">过去已过去。未来，才是值得一谈之事。</span>
+        <br><br>
+        <div th:text="${#dates.format(message.createTime,'yyyy-MM-dd HH:mm')}" class="ui right aligned">2019-04-01
+            19:00
+        </div>
+    </div>
+
+</div>
+    <!--导航栏-->
+    <nav th:replace="_qiantai :: menu(5)" class="ui attached segment m-padded-tb-mini m-shadow-small">
+
+    </nav>
+
+
+<br><br>
+
+<div class="ui stackable this   container m-container-nine">
+<div class="ui stackable middle aligned grid animated lightSpeedIn ">
+
+    <div class=" left aligned thirteen wide column   m-mobile-hide">
+        <div class="ui basic raised segment m-padded-tb-small centerMessage ">
+            <div class="ui blue header ">
+                <div class="ui text shape m-inline-block">
+                    <div class="sides ">
+                        <div class="ui  side active m-text-spaced ">
+                            <span>Valar morghulis.</span>——————by&nbsp;&nbsp;<span> 乔治·马丁</span>
+                        </div>
+                        <div th:each="message : ${messages}" class="ui  side  ">
+                            <div class="m-text-spaced">
+                                <span th:text="${message.content}">They always need to have things to explained.</span>
+                                ——————by&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${message.touristName}">The Little Prince</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="two wide center aligned column m-padded-tb-this">
+        <button id="sidebar-btn" class="ui  blue button">留言板</button>
+    </div>
+    </div>
+</div>
+    <!--&lt;!&ndash;中部主体&ndash;&gt;-->
+    <div class="m-container-small m-padded-tb-big ">
+     <!--<div class="ui  stacked segment six wide column m-column">-->
+
+        <div>
+            <h3 class="ui header m-text"><i class="fab fa-wolf-pack-battalion"></i>我的任务</h3>
+            <br>
+         <div class="ui stackable two column grid">
+             <div class="column" >
+                 <div class="ui raised segment">
+                     <a class="ui red ribbon label">上周</a>
+                     <span>收获</span>
+
+                     <div class="ui middle aligned animated list">
+                         <div th:each="bulletin : ${notices}" class="item">
+                             <img class="ui avatar image" src="../static/images/headpicture.jpg" th:src="@{/images/thelittleprince.jpg}">
+                             <div class="content">
+                                 <div th:text="${bulletin.completed}" class="header">2019年六一儿童节</div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="column">
+                 <div class="ui raised segment">
+                     <a class="ui blue  ribbon label">本周</a>
+                     <span>待完成</span>
+                     <div class="ui middle aligned animated list">
+                         <div th:each="bulletin : ${notices}" class="item">
+                             <img class="ui avatar image" src="../static/images/headpicture.jpg" th:src="@{/images/flower.jpg}">
+                             <div class="content">
+                                 <div th:text="${bulletin.uncompleted}" class="header">springboot源码</div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="ui raised segments m-margin ">
+             <div class="ui segment">
+                 <div class="ui two column grid">
+                     <div class="column">
+                         <i class="info icon"></i>本站信息
+                     </div>
+                 </div>
+             </div>
+             <div class="ui red segment">
+                 <div class="menu">
+                     <div class="item m-padded-tb"><i class="folder outline icon"></i>文章总数:<span th:text="${page}">56</span>篇</div>
+                     <div class="item m-padded-tb"><i class="tasks icon"></i>分类总数:<span th:text="${typesCount}">56</span>个</div>
+                     <div class="item m-padded-tb"><i class="tags icon"></i>标签:<span th:text="${tagsCount}">56</span>个</div>
+                     <div class="item m-padded-tb"><i class="comments outline icon"></i>评论总数:<span th:text="${commentsCount}">56</span>条</div>
+                     <div class="item m-padded-tb"><i class="american sign language interpreting icon"></i>阅读总数:<span
+                             th:text="${viewsCount}">56</span>次</div>
+                     <div class="item m-padded-tb"><i class="paper plane icon"></i>建站时长:<span id="recordTime"></span></div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+    </div>
+
+
+    <!--</footer>-->
+    <footer th:replace="_qiantai :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+
+
+
+    </footer>
+
+
+<!--也许用到的jQuery的引用-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<!--这里进行semanticUI的js 的CDN的引用 -->
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script>
+        $('.menu.toggle').click(function () {
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+
+        $('#sidebar-btn').click(function () {
+            $('.ui.sidebar')
+                .sidebar('toggle')
+            ;
+
+        });
+
+        function shapeChange() {
+            $('.shape').shape('flip down');
+        }
+
+        $('#payButton').popup({
+            popup : $('.payQR.popup'),
+            on : 'click',
+            position: 'bottom center'
+        });
+
+        function time(){
+            var nowTime =new Date();
+            var startTime=new Date(2019,4,1,0,0,0);
+
+            var xc=(nowTime.getTime()-startTime.getTime())/1000;
+            var day=parseInt(xc/86400);
+            xc-=day*86400;
+            var hour=parseInt(xc/3600);
+            xc-=hour*3600;
+            var min=parseInt(xc/60);
+            var sec=parseInt(xc-min*60);
+            hour=guolv(hour);
+            min=guolv(min);
+            sec=guolv(sec);
+            var str=day+'天'+hour+'小时'+min+'分'+sec+'秒';
+            $("#recordTime").html(str);
+        }
+        setInterval(time,1000);
+        setInterval(shapeChange,4000);
+
+        function guolv(a) {
+            if(a<10)
+                return '0'+a;
+            return a;
+        }
+
+    </script>
+</body>
+</html>

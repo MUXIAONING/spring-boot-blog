@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_houtai :: head(~{:: title})">
+    <meta charset="UTF-8">
+    <!--首先完成移动端的预览设置问题,设备的宽度初始缩放倍数为1.0倍，这里还可以设置用户禁止缩放等等-->
+    <meta name="viewport" content="device-width,initial-scale=1.0">
+    <title>控制台</title>
+    <!--接下来进行semanticUI的css CDN的引用-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <!--引入我们自己写的css-->
+    <link rel="stylesheet" href="../static/css/me.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+
+<!--导航栏-->
+<nav th:replace="admin/_houtai :: menu(8)" class="ui attached segment m-padded-tb-mini m-shadow-small">
+
+
+
+</nav>
+
+<br><br><br><br>
+
+<div class="ui stackable this   container m-container-eight">
+    <div class=" center aligned">
+    <div class="ui cards ">
+        <a class="green  card m-card-center m-manage-div" href="#">
+            <div class="content" style="background:#f4f3f3">
+                <div class="header">文章数</div>
+                <div class="m-text-manage item m-padded-tb-mini"><i class="folder outline icon"></i>文章总数:<span
+                        th:text="${page}">56
+                </span>篇</div>
+            </div>
+
+        </a>
+        <a class="blue  card m-card-center m-manage-div" href="#">
+            <div class="content" style="background:#dfdfdf">
+
+                <div class="header">评论数</div>
+                <div class=" m-text-manage item m-padded-tb-mini"><i class="comments outline icon"></i>评论总数:<span
+                        th:text="${commentsCount}">56</span>条</div>
+            </div>
+
+        </a>
+        <a class="black card m-card-center m-manage-div" href="#">
+            <div class="content" style="background:#bfd8d5">
+                <div class="header">留言数</div>
+                <div class="m-text-manage item m-padded-tb-mini"><i class="comments outline icon"></i>留言总数:<span
+                        th:text="${messages}">56</span>条</div>
+
+            </div>
+
+        </a>
+        <a class="black card m-card-center m-manage-div" href="#">
+        <div class="content" style="background:#b1bed5">
+            <div class="header">友链数</div>
+
+            <div class="m-text-manage item m-padded-tb-mini"><i class="comments outline icon"></i>友链总数:<span th:text="${friendCount}">56
+            </span>条</div>
+        </div>
+
+    </a>
+
+    </div>
+
+        <!--<div class="ui cards ">-->
+
+            <!--<a class="black card m-card-center " href="#">-->
+                <!--<div class="content" style="background:url(/images/upfeathers.png)">-->
+                    <!--<div class="header">阅读最受欢迎榜单</div>-->
+                <!--</div>-->
+                <!--<div class="content">-->
+
+                <!--</div>-->
+            <!--</a>-->
+            <!--<a class="black card m-card-center" href="#">-->
+                <!--<div class="content" style="background:url(/images/upfeathers.png)">-->
+                    <!--<div class="header">系统日志</div>-->
+
+                    <!--<div class="description">-->
+                        <!--<p>人生的快乐，自我的解放.</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="extra content">-->
+                    <!--<div class="right floated author">-->
+                        <!--<img class="ui avatar image" src="../static/images/elyse.png"-->
+                             <!--th:src="@{/images/elyse.png}"> Jude-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+        </div>
+    <div class="ui three column grid">
+        <div class="column" >
+            <div class="ui raised segment" >
+                <a class="ui red ribbon label"><div class="header">阅读最受欢迎榜单</div></a>
+                <h3 class="ui center aligned header">阅读最受欢迎榜单</h3>
+                <th:block th:each="blog : ${viewTop}">
+
+                    <div class="ui fluid vertical  menu" >
+                        <a th:if="${blog.published} == true"  th:href="@{/blog/{id}(id=${blog.id})}" href="#" target="_blank" class=" item">
+                    <span>
+                        <i class="mini blue circle icon"></i><span th:text="${blog.title}">白水青菜</span>
+                        <div th:text="${#dates.format(blog.updateTime,'MM-dd')}" class="ui blue basic left pointing label m-padded-mini">9月3日</div>
+
+                                <i class="eye icon"></i><span th:text="${blog.views}">2342</span>
+
+                    </span>
+                            <div th:text="${blog.flag}" class="ui blue basic left pointing label m-padded-mini ">原创
+                            </div>
+                        </a>
+                    </div>
+                </th:block>
+                <p></p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui raised segment">
+                <a class="ui green ribbon label"><div class="header">评论排行榜单</div></a>
+                <h3 class="ui center aligned header">评论排行榜单</h3>
+
+                <th:block th:each="blog : ${commentTop}">
+
+                    <div class="ui fluid vertical  menu" >
+                        <a th:if="${blog.published} == true"  th:href="@{/blog/{id}(id=${blog.id})}" href="#" target="_blank" class=" item">
+                    <span>
+                        <i class="mini blue circle icon"></i><span th:text="${blog.title}">白水青菜</span>
+                        <div th:text="${#dates.format(blog.updateTime,'MM-dd')}" class="ui blue basic left pointing label m-padded-mini">9月3日</div>
+
+                                <i class="eye icon"></i><span th:text="${blog.views}">2342</span>
+
+                    </span>
+                            <div th:text="${blog.flag}" class="ui blue basic left pointing label m-padded-mini ">原创
+                            </div>
+                        </a>
+                    </div>
+                </th:block>
+
+
+            </div>
+        </div>
+        <div class="column">
+        <div class="ui segment">
+            <a class="ui blue right ribbon label"><div class="header">系统日志</div></a>
+            <h3 class="ui center aligned header">系统日志</h3>
+            <p></p>
+
+        </div>
+
+    </div>
+    </div>
+    </div>
+</div>
+<!--中部主体-->
+<div class="m-container-small m-padded-tb-big ">
+    <div class="ui container">
+
+    </div>
+</div>
+
+
+
+<footer th:replace="admin/_houtai :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+
+
+
+</footer>
+
+
+<!--也许用到的jQuery的引用-->
+<th:block th:replace="admin/_houtai :: script">
+    <!--也许用到的jQuery的引用-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!--这里进行semanticUI的js 的CDN的引用 -->
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+</th:block>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+
+    $('#payButton').popup({
+        popup: $('.payQR.popup'),
+        on: 'click',
+        position: 'bottom center'
+    });
+
+</script>
+</body>
+</html>

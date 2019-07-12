@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_qiantai :: head(~{:: title})">
+    <meta charset="UTF-8">
+    <!--首先完成移动端的预览设置问题,设备的宽度初始缩放倍数为1.0倍，这里还可以设置用户禁止缩放等等-->
+    <meta name="viewport" content="device-width,initial-scale=1.0">
+    <title>归档</title>
+    <!--semanticUI的css CDN的引用-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <!--引入自己写的css-->
+    <link rel="stylesheet" href="../static/css/me.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+
+    <!--导航栏-->
+    <nav th:replace="_qiantai :: menu(4)" class="ui attached segment m-padded-tb-mini m-shadow-small">
+
+    </nav>
+
+    <!--中部主体-->
+    <div class="m-container-small m-padded-tb-big ">
+        <div class="ui  container">
+
+            <div class="ui top attached segment">
+
+                <div class="ui middle aligned two column padded  grid">
+                    <div class="column">
+                        <h3 class="ui blue header">归档</h3>
+                    </div>
+                    <div class="right aligned column">
+                        共<h2 th:text="${page.totalElements}" class="ui m-inline-block orange header ">8</h2>篇博客
+                    </div>
+                </div>
+            </div>
+
+
+        <th:block th:each="item : ${archiveMap}">
+
+            <h3 th:text="${item.key}" class="ui center aligned header">2019</h3>
+            <div class="ui fluid vertical  menu" >
+                <a th:if="${blog.published} == true" th:each="blog : ${item.value}" th:href="@{/blog/{id}(id=${blog.id})}" href="#" target="_blank" class=" item">
+                    <span>
+                        <i class="mini blue circle icon"></i><span th:text="${blog.title}">白水青菜</span>
+                        <div th:text="${#dates.format(blog.updateTime,'MM-dd')}" class="ui blue basic left pointing label m-padded-mini">9月3日</div>
+                    </span>
+                    <div th:text="${blog.flag}" class="ui orange basic left pointing label m-padded-mini ">原创</div>
+                </a>
+
+            </div>
+
+
+
+        </th:block>
+
+
+
+
+
+        </div>
+    </div>
+    <br><br><br>
+
+    <!--底部footer栏-->
+    <footer th:replace="_qiantai :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+
+
+    </footer>
+
+
+<!--也许用到的jQuery的引用-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<!--这里进行semanticUI的js 的CDN的引用 -->
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script>
+        $('.menu.toggle').click(function () {
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+
+
+        $('#payButton').popup({
+            popup : $('.payQR.popup'),
+            on : 'click',
+            position: 'bottom center'
+        });
+
+    </script>
+</body>
+</html>

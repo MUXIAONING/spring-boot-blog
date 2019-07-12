@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Title</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!--排版插件-->
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <!--动画效果的插件-->
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <!--代码高亮-->
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <!--目录的插件-->
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <script type='text/javascript' src='../static/js/jquery-1.11.1.min.js'></script>
+
+    <script type='text/javascript' src='../static/jquery.particleground.min.js'></script>
+
+    <script type='text/javascript' src='../static/js/demo.js'></script>
+</head>
+<body>
+<nav th:fragment="menu(n)" class="ui attached segment  m-padded-tb-mini m-shadow-small animated pulse">
+    <div class="ui container">
+        <div class="ui  secondary  menu">
+            <a href="#" th:href="@{/}" class="item">
+                <img class="ui circular image"
+                     src="https://cdn.pixabay.com/photo/2019/05/08/21/21/cat-4189697_1280.jpg"
+                     th:src="@{/images/thelittleprince.jpg}" style="width: 50px">
+            </a>
+            <a class="item m-item m-mobile-hide" th:href="@{/}" th:classappend="${n==1} ? 'active'">
+                <i class="fas fa-carrot"></i>首页
+            </a>
+            <a class="item m-item m-mobile-hide" th:href="@{/types/-1}" th:classappend="${n==2} ? 'active'">
+                <i class="fas fa-ice-cream"></i>分类
+            </a>
+            <a class="item m-item m-mobile-hide" th:href="@{/tags/-1}" th:classappend="${n==3} ? 'active'"><i
+                    class="fas fa-candy-cane"></i>标签</a>
+            <a class="item m-item m-mobile-hide" th:href="@{/archives}" th:classappend="${n==4} ? 'active'"><i
+                    class="fas fa-pizza-slice"></i>归档</a>
+            <a class="item m-item m-mobile-hide" th:href="@{/aboutweb}" th:classappend="${n==5} ? 'active'"><i
+                    class="fas fa-cookie"></i>本站</a>
+            <a class="item m-item m-mobile-hide" th:href="@{/friends}" th:classappend="${n==6} ? 'active'"><i
+                    class="fas fa-fish"></i>友链</a>
+            <a class="item m-item m-mobile-hide" th:href="@{/aboutme}" th:classappend="${n==7} ? 'active'"><i
+                    class="fas fa-seedling"></i>关于我</a>
+
+            <div class="right s-item item m-mobile-hide" style="height: 15px">
+                <script charset="Shift_JIS"
+                        src="http://chabudai.sakura.ne.jp/blogparts/honehoneclock/honehone_clock_wh.js"></script>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui black icon button m-right-top m-mobile-show menu toggle">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container m-padded-tb-mini">
+
+        <div class="ui stackable inverted divided grid">
+
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../static/images/weixinzhanghao.png" th:src="@{/images/weixinzhanghao.png}" class="ui rounded image" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+
+                <h4 class="ui inverted header m-text-spaced m-opacity-small">推荐博客</h4>
+
+                <div class="ui inverted link list ">
+                    <a th:if="${blog.published} == true" th:each="blog : ${recommends}" href="#" th:text="${blog.title}" th:href="@{/blog/{id}(id=${blog.id})}" class="item">用户故事(User Story)</a>
+
+                </div>
+            </div>
+
+            <div class="three wide column">
+                <h4 class="ui inverted header  m-text-spaced m-opacity-small">联系我</h4>
+                <div class="ui inverted link list m-text-lined">
+                    <div href="#" class="item">QQ:1565430103</div>
+                    <div href="#" class="item">Wechat:ljn1565430103</div>
+                    <div href="#" class="item">Email:1565430103@qq.com</div>
+                </div>
+            </div>
+
+            <div class="seven wide column">
+                <h4 class="ui inverted header  m-text-spaced m-opacity-small">关于我</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini">岁月有痕，时光不老</p>
+            </div>
+        </div>
+        <!--水平分割线-->
+        <div class="ui inverted section divider"> </div>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">Copyright©2019-2020J.ljn Designed by J.ljn</p>
+    </div>
+</footer>
+<th:block th:fragment="script">
+    <!--jQuery的引用-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!--semanticUI的js 的CDN的引用 -->
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+</th:block>
+</body>
+</html>

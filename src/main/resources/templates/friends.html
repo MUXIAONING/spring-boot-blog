@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_qiantai :: head(~{:: title})">
+    <meta charset="UTF-8">
+    <!--首先完成移动端的预览设置问题,设备的宽度初始缩放倍数为1.0倍，这里还可以设置用户禁止缩放等等-->
+    <meta name="viewport" content="device-width,initial-scale=1.0">
+    <title>友链</title>
+    <!--接下来进行semanticUI的css CDN的引用-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <!--引入我们自己写的css-->
+    <link rel="stylesheet" href="../static/css/me.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+
+    <!--导航栏-->
+    <nav th:replace="_qiantai :: menu(6)" class="ui   attached segment m-padded-tb-mini m-shadow-small">
+
+
+    </nav>
+
+    <!--中部主体-->
+    <div class="m-padded-tb-large ">
+        <div class="ui stackable container m-container-nine"   >
+            <h3 class="ui header m-text"><i class="fab fa-wolf-pack-battalion"></i>大佬的博客:</h3>
+            <br>
+            <div class="ui cards ">
+                <a th:href="@{'http://'+${friend.website}}" th:if="${friend.flag}=='大佬'" th:each="friend : ${friends}" class="orange card m-card-center">
+                    <div class="content">
+                        <div th:text="${friend.nickname}"  class="header" href="#">哈哈，都是大佬</div>
+                        <p th:text="${friend.description}"></p>
+                    </div>
+                </a>
+
+
+            </div>
+            <!--中部的分割线-->
+            <div class="ui  section divider m-padded-tb"></div>
+            <div class="ui stackable  grid">
+
+                <div class="ui eleven wide column">
+
+                        <h3 class="ui header m-text"><i class="fas fa-users"></i>友情链接(可以在本站中留言添加):</h3>
+
+                        <br>
+                        <div class="ui link cards">
+
+
+                            <a th:href="@{'http://'+${friend.website}}" th:if="${friend.flag}=='朋友'" th:each="friend : ${friends}" class="blue card m-card-center">
+
+                                <div  class="image">
+                                    <img th:src="${friend.avatar}" src="../static/images/molly.png">
+                                </div>
+
+                                <div class="content">
+                                    <div th:text="${friend.nickname}" class="header">J.Ljn</div>
+                                    <div class="meta">
+                                        <span class="date" th:text="${friend.occupation}">Coder</span>
+                                    </div>
+                                    <div class="description" th:text="${friend.description}">
+                                        大佬们很厉害，不过31班永远年轻，永远热泪盈眶.
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+                    </div>
+
+                <div class="ui five wide column">
+                    <h3 class="ui header m-text"><i class="fas fa-cloud"></i>喜欢的网站:</h3>
+                    <br>
+                    <div class="ui cards">
+
+                        <a th:href="@{'http://'+${friend.website}}" th:if="${friend.flag}=='网站'"  th:each="friend : ${friends}" class="black card m-card-center">
+                            <div class="content">
+                                <div   class="header" th:text="${friend.nickname}">其实我最喜欢的还是龙轩导航</div>
+
+                                <p th:text="${friend.description}"></p>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <br><br><br>
+
+    <!--底部footer栏-->
+    <footer th:replace="_qiantai :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+
+
+    </footer>
+
+
+<!--也许用到的jQuery的引用-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<!--这里进行semanticUI的js 的CDN的引用 -->
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script>
+        $('.menu.toggle').click(function () {
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+
+
+        $('#payButton').popup({
+            popup : $('.payQR.popup'),
+            on : 'click',
+            position: 'bottom center'
+        });
+
+    </script>
+</body>
+</html>

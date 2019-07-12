@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_qiantai :: head(~{::title})">
+    <meta charset="UTF-8">
+    <!--首先完成移动端的预览设置问题,设备的宽度初始缩放倍数为1.0倍，这里还可以设置用户禁止缩放等等-->
+    <meta name="viewport" content="device-width,initial-scale=1.0">
+    <title>J.ljn's blog</title>
+    <!--接下来进行semanticUI的css CDN的引用-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <!--引入我们自己写的css-->
+    <link rel="stylesheet" href="../static/css/me.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!--动画效果的插件-->
+    <link rel="stylesheet" href="../static/css/animate.css">
+</head>
+<body>
+
+<div class="pusher">
+
+
+    <!--导航栏-->
+    <nav th:replace="_qiantai :: menu(1)"
+         class="ui   attached segment m-padded-tb-mini m-shadow-small animated fadeInDown">
+
+
+    </nav>
+
+    <!--中部主体-->
+    <div class=" m-padded-tb-large">
+
+        <div class="ui stackable this   container m-container-nine">
+
+
+
+            <div class="ui stackable  grid m-padded-tb-small">
+
+
+                <div class="ui  three wide   column m-column">
+                    <br><br>
+
+
+                    <div class="ui   link  card m-card-center">
+
+                        <div class="ui slide right reveal image">
+                            <div class="visible content">
+                                <img class="ui fluid image" src="../assets/images/avatar/nan.jpg"
+                                     th:src="@{https://images.pexels.com/photos/1576937/pexels-photo-1576937.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500}">
+                            </div>
+                            <div class="hidden content">
+                                <img class="ui fluid image" src="../assets/images/avatar/tom.jpg"
+                                     th:src="@{/images/myPicture.jpg}">
+                            </div>
+                        </div>
+                        <div class="content">
+                            <a class="header" href="#aboutme">J.Ljn</a>
+                            <div class="meta">
+                                <a>Java程序员(酱油选手)</a>
+                            </div>
+                            <div class=" description m-padded" style="font-family: 楷体">
+                                从本质意义上，<br>
+                                我们都是既失去家乡而又无法抵达远方的人。
+                            </div>
+                        </div>
+                        <div class=" extra content">
+                            <a href="https://github.com/MUXIAONING" target="_blank" class="ui circular icon button"><i
+                                    class="github icon"></i></a>
+                            <a href="https://blog.csdn.net" target="_blank" class="ui circular icon button"><i
+                                    class="fab fa-cuttlefish"></i></a>
+                            <a href="https://weibo.com/u/6421106372" class="ui circular icon button"><i
+                                    class="weibo icon"></i></a>
+                            <a href="#" class="ui qq circular icon button" data-content="1565430103"
+                               data-position="bottom center"><i class="qq icon"></i></a>
+                        </div>
+
+                    </div>
+
+
+                    <!--这里是一根分割线-->
+                    <div class="m-text-a ui horizontal divider m-margin  ">快应用</div>
+                    <!--分类-->
+                    <div class="ui raised segments m-margin">
+                        <div class="ui segment">
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <i class="fas fa-cat"></i>分类
+                                </div>
+                                <div class="right aligned column">
+                                    <a href="#" th:href="@{/types/-1}" target="_blank">more</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui orange segment">
+                            <div class="ui fluid vertical menu">
+                                <a th:each="type : ${types}" th:href="@{/types/{id}(id=${type.id})}" class="item"
+                                   href="#" target="_blank">
+                                    <span th:text="${type.name}">学习日志</span>
+                                    <div th:text="${#arrays.length(type.blogs)}"
+                                         class="ui orange basic left pointing label">13
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--标签-->
+                    <div class="ui raised segments m-margin">
+                        <div class="ui    segment">
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <i class="fas fa-dove"></i>标签
+                                </div>
+                                <div class="right aligned column">
+                                    <a href="#" th:href="@{/tags/-1}" target="_blank">more</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui blue segment">
+
+                            <a th:each="tag : ${tags}" th:href="@{/tags/{id}(id=${tag.id})}" href="#" target="_blank"
+                               class="ui blue basic left pointing label m-margin-tiny">
+                                <span th:text="${tag.name}">方法论</span>
+                                <div th:text="${#arrays.length(tag.blogs)}" class="detail">23</div>
+                            </a>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="ui  section divider"></div>
+
+                </div>
+
+                <!--中间的每周目标和文章-->
+                <div class="ui ten wide column m-padded-lr-small">
+
+                    <div class="ui horizontal divider m-margin m-text">最新博客</div>
+
+
+                    <!--文章列表-->
+                    <div class="ui raised segment m-margin-small" th:each="blog : ${page.content}"
+                         th:unless="${blog.published}==false">
+                        <div class="ui stackable mobile reversed grid">
+                            <!--11份来显示内容-->
+                            <div class="ui eleven wide column">
+
+                                <h3 class="ui  header m-padded-tb-up"><a th:text="${blog.title}"
+                                                                         th:href="@{/blog/{id}(id=${blog.id})}" href="#"
+                                                                         target="_blank"
+                                                                         style="font-family:宋体;color: black !important;">夏目漱石《心》</a>
+                                </h3>
+                                <p th:text="${blog.description}" class="m-padded-tb-bottom "
+                                   style="font-size: 15px; font-weight: 500 !important;letter-spacing: 1px !important;line-height: 2.5;font-family: 仿宋;">
+                                    我郁郁寡欢，心里有时候像吞铅一样沉重。然而神经却如我刚才说的那样十分敏锐兴奋。
+                                </p>
+                                <div class="ui divider "></div>
+                                <div class="ui middle aligned grid">
+                                    <div class="six wide column">
+                                        <div class="ui mini horizontal link list">
+                                            <div class="item">
+                                                <img th:src="${blog.account.avator}"
+                                                     src="https://unsplash.it/100/100?image=1005"
+                                                     class="ui avatar image">
+                                                <div class="content"><h5 th:text="${blog.account.accountname}"
+                                                                         class="ui header m-opacity-mini">卢加宁</h5>
+                                                </div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="calendar icon"></i><span
+                                                    th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2017-10-01</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="left aligned seven wide column">
+
+                                        <a th:href="@{/tags/{id}(id=${tag.id})}" th:each="tag : ${blog.tags}" href="#"
+                                           class=" m-margin-smalls">
+                                            <i class="fas fa-tag"></i>
+                                            <span th:text="${tag.name}">方法论</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="right aligned three wide column">
+                                        <a href="#" th:href="@{/types/{id}(id=${blog.type.id})}"
+                                           th:text="${blog.type.name}" target="_blank"
+                                           class="ui  solar-orange basic label m-text-thin ">看过的书</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--5份来显示图片-->
+                            <div class="five wide column">
+
+                                <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+                                    <img th:src="@{${blog.Picture}}" src="https://unsplash.it/800/450?image=1005" alt=""
+                                         class="ui  rounded image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <br>
+                    <br>
+                    <br>
+                    <!--footer尾部上一页，下一页-->
+                    <div class="ui segment" th:if="${page.totalPages}>1">
+                        <div class="ui two column grid">
+                            <div class=" column">
+                                <a href="#" th:href="@{/(page=${page.number}-1)}" th:unless="${page.first}"
+                                   class="ui blue basic button">上一页</a>
+                            </div>
+                            <div class="ui right aligned column">
+                                <a href="#" th:href="@{/(page=${page.number}+1)}" th:unless="${page.last}"
+                                   class="ui blue basic button">下一页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--右边的分类标签-->
+                <div class="ui three wide column">
+
+                    <!--致访客的公告-->
+                    <!--这里是一根分割线-->
+                    <br><br>
+                    <div class="m-text-a ui horizontal divider ">My motto</div>
+
+                    <div style="font-size:18px;font-weight:500;font-family: 楷体!important;">
+
+                        <p class="ui left aligned ">其实我们这一代人，很多是没有退路的。</p>
+                        <p class="content ">感到失败和望不到头的时候，没有那个外界默认的“避风港”</p>
+                        <p class="">不会觉得“就这样回家好了”，回到那个有爸爸妈妈的屋子里，把接下来的日子过完，或者重新振作再出发。</p>
+                        <p class="">很多人其实不把家当退路的。</p>
+                        <p class="">低谷时，家人甚至会给予更大的压力。</p>
+                        <p class="">我看见很多年轻人站在路中间，就那样站着哭。</p>
+                        <p class="">身后没有灯火，身前白雾茫茫。</p>
+                        <P class="right aligned">by 网易云热评</P>
+                        <i class="fas fa-heartbeat"></i>
+                        <i class="fas fa-fighter-jet"></i><i class="fas fa-fighter-jet"></i><i
+                            class="fas fa-fighter-jet"></i><i
+                            class="fas fa-fighter-jet"></i><i class="fas fa-fighter-jet"></i><i
+                            class="fas fa-fighter-jet"></i><i
+                            class="fas fa-fighter-jet"></i><i class="fas fa-fighter-jet"></i><i
+                            class="fas fa-fighter-jet"></i>
+                    </div>
+
+                    <!--这里是一根分割线-->
+                    <div class="m-text-a ui horizontal divider m-margin  ">小助手</div>
+                    <!--下面是一些链接-->
+                    <div class="ui cards ">
+                        <a class="orange  card m-card-center" href="#">
+                            <div class="content" style="background:url(/images/just-waves.png)">
+                                <div class="header">待完善</div>
+                                <div class="description">
+                                    <p>一些有趣的工具箱</p>
+                                </div>
+                            </div>
+                            <div class="extra content">
+                                <div class="right floated author">
+                                    <img class="ui avatar image" src="../static/images/elyse.png"
+                                         th:src="@{/images/elyse.png}"> J.Ljn
+                                </div>
+                            </div>
+                        </a>
+                        <a class="blue  card m-card-center" href="#">
+                            <div class="content" style="background:url(/images/rip_jobs.png)">
+
+                                <div class="header">待完善</div>
+                                <div class="description">
+                                    <p>每日的热点排行榜（可参考抽屉，多摸鱼）</p>
+                                </div>
+                            </div>
+                            <div class="extra content">
+                                <div class="right floated author">
+                                    <img class="ui avatar image" src="../static/images/elyse.png"
+                                         th:src="@{/images/elyse.png}"> J.Ljn
+                                </div>
+                            </div>
+                        </a>
+                        <a class="black card m-card-center" href="#">
+                            <div class="content" style="background:url(/images/upfeathers.png)">
+                                <div class="header">待完善</div>
+
+                                <div class="description">
+                                    <p>结尾小彩蛋.</p>
+                                </div>
+                            </div>
+                            <div class="extra content">
+                                <div class="right floated author">
+                                    <img class="ui avatar image" src="../static/images/elyse.png"
+                                         th:src="@{/images/elyse.png}"> J.Ljn
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <br><br>
+                    <div class="ui  section divider"></div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <br><br>
+
+    <!--底部footer栏-->
+    <footer th:replace="_qiantai :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+
+    </footer>
+</div>
+
+
+<th:block th:replace="_qiantai :: script">
+    <!--也许用到的jQuery的引用-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!--这里进行semanticUI的js 的CDN的引用 -->
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+</th:block>
+
+<script>
+
+
+    $('.menu.toggle').click(function () {
+
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    function shapeChange() {
+        $('.shape').shape('flip down');
+    }
+
+    $('#sidebar-btn').click(function () {
+        $('.ui.sidebar')
+            .sidebar('toggle')
+        ;
+
+    });
+
+
+    function guolv(a) {
+        if (a < 10)
+            return '0' + a;
+        return a;
+    }
+
+    function time() {
+        var nowTime = new Date();
+        var startTime = new Date(2019, 4, 1, 0, 0, 0);
+
+        var xc = (nowTime.getTime() - startTime.getTime()) / 1000;
+        var day = parseInt(xc / 86400);
+        xc -= day * 86400;
+        var hour = parseInt(xc / 3600);
+        xc -= hour * 3600;
+        var min = parseInt(xc / 60);
+        var sec = parseInt(xc - min * 60);
+        hour = guolv(hour);
+        min = guolv(min);
+        sec = guolv(sec);
+        var str = day + '天' + hour + '小时' + min + '分' + sec + '秒';
+        $("#recordTime").html(str);
+    }
+
+    setInterval(time, 1000);
+    setInterval(shapeChange, 4000);
+
+
+    $('.ui.form').form({
+        fields: {
+            touristName: {
+                identifier: 'touristName',
+                rules: [{
+                    type: 'empty'
+
+                }]
+            },
+            content: {
+                identifier: 'content',
+                rules: [{
+                    type: 'empty'
+                }]
+            }
+        }
+    });
+
+    $('.qq').popup();
+
+    $(function () {
+        //判断是否宽屏
+        var winWide = window.screen.width;
+
+        var wideScreen = false;
+        if (winWide <= 768) {//1024及以下分辨率
+            $('.this').toggleClass('m-container-nine');
+
+        }
+    })
+
+</script>
+</body>
+</html>
